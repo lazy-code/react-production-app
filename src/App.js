@@ -11,13 +11,19 @@ class App extends Component {
         {id: 1, name: 'Learn JSX', isComplete:true},
         {id: 2, name: 'Build an awesome app', isComplete:false},
         {id: 3, name: 'Ship it', isComplete:false}
-      ]
+      ],
+      currentTodo: ''
     };
-  }
+  };
+
+  handleInputChange = (ev) => {
+    this.setState({
+      currentTodo: ev.target.value
+    });
+  };
 
   render() {
-
-    const todos = this.state.todos;
+    const { todos, currentTodo } = this.state;
     const todoList = todos.map(todo => {
                         return <li key={todo.id}>
                                   <input type="checkbox" defaultChecked={todo.isComplete} />
@@ -33,7 +39,7 @@ class App extends Component {
         </div>
         <div className="Todo-App">
           <form>
-            <input type="text" />
+            <input type="text" value={currentTodo} onChange={this.handleInputChange}/>
           </form>
           <div className="Todo-List">
             <ul>
@@ -43,7 +49,7 @@ class App extends Component {
         </div>
       </div>
     );
-  }
+  };
 }
 
 export default App;
