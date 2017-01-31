@@ -4,7 +4,27 @@ import './App.css';
 
 class App extends Component {
 
+  constructor() {
+    super();
+    this.state = {
+      todos: [
+        {id: 1, name: 'Learn JSX', isComplete:true},
+        {id: 2, name: 'Build an awesome app', isComplete:false},
+        {id: 3, name: 'Ship it', isComplete:false}
+      ]
+    };
+  }
+
   render() {
+
+    const todos = this.state.todos;
+    const todoList = todos.map(todo => {
+                        return <li key={todo.id}>
+                                  <input type="checkbox" defaultChecked={todo.isComplete} />
+                                  {todo.name}
+                                </li>
+                        });
+
     return (
       <div className="App">
         <div className="App-header">
@@ -17,18 +37,7 @@ class App extends Component {
           </form>
           <div className="Todo-List">
             <ul>
-              <li>
-                <input type="checkbox" />
-                Learn JSX
-              </li>
-              <li>
-                <input type="checkbox" />
-                Build an awesome app
-              </li>
-              <li>
-                <input type="checkbox" />
-                Ship it
-              </li>
+              {todoList}
             </ul>
           </div>
         </div>
