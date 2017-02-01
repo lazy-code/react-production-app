@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { TodoForm } from './components/todo/TodoForm'
+
 import logo from './logo.svg';
 import './App.css';
 
@@ -38,9 +40,7 @@ class App extends Component {
           <h2>React Todos</h2>
         </div>
         <div className="Todo-App">
-          <form>
-            <input type="text" value={currentTodo} onChange={this.handleInputChange}/>
-          </form>
+          <TodoForm currentTodo={currentTodo} handleInputChange={this.handleInputChange} />
           <div className="Todo-List">
             <ul>
               {todoList}
