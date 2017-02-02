@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { TodoForm, TodoList } from './components/todo';
+import { addTodo, generateId }from './lib/TodoHelpers';
 
 import logo from './logo.svg';
 import './App.css';
@@ -18,6 +19,20 @@ class App extends Component {
     };
   };
 
+  handleSubmit = (ev) => {
+    ev.preventDefault();
+
+    const newId = generateId();
+    const newTodo = {id: newId, name: this.state.currentTodo, isComplete:false};
+    const updatedTodos = addTodo(this.state.todos, newTodo);
+
+    this.setState({
+      todos: updatedTodos,
+      currentTodo: ''
+    });
+
+  };
+
   handleInputChange = (ev) => {
     this.setState({
       currentTodo: ev.target.value
@@ -34,7 +49,10 @@ class App extends Component {
           <h2>React Todos</h2>
         </div>
         <div className="Todo-App">
-          <TodoForm currentTodo={currentTodo} handleInputChange={this.handleInputChange} />
+          <TodoForm currentTodo={currentTodo}
+                    handleInputChange={this.handleInputChange}
+                    handleSubmit={this.handleSubmit}
+          />
           <TodoList todos={todos} />
         </div>
       </div>
