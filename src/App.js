@@ -33,14 +33,23 @@ class App extends Component {
 
   };
 
+  handleEmptySubmit = (ev) => {
+    ev.preventDefault();
+    this.setState({
+      errorMessage: 'Please supply a todo name'
+    });
+  };
+
   handleInputChange = (ev) => {
     this.setState({
-      currentTodo: ev.target.value
+      currentTodo: ev.target.value,
+      errorMessage: ''
     });
   };
 
   render() {
-    const { todos, currentTodo } = this.state;
+    const { todos, currentTodo, errorMessage } = this.state;
+    const submitHandler = currentTodo ? this.handleSubmit : this.handleEmptySubmit;
 
     return (
       <div className="App">
@@ -49,9 +58,10 @@ class App extends Component {
           <h2>React Todos</h2>
         </div>
         <div className="Todo-App">
+          {errorMessage && <span className="error">{errorMessage}</span>}
           <TodoForm currentTodo={currentTodo}
                     handleInputChange={this.handleInputChange}
-                    handleSubmit={this.handleSubmit}
+                    handleSubmit={submitHandler}
           />
           <TodoList todos={todos} />
         </div>
