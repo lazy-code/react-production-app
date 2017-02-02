@@ -17,6 +17,7 @@ export const TodoItem = (props) => {
 };
 
 TodoItem.propTypes = {
+  // From TodoList component
   name: PropTypes.string,
   isComplete: PropTypes.bool,
   id: PropTypes.number,

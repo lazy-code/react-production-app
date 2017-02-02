@@ -15,5 +15,6 @@ export const TodoList = (props) => {
 };
 
 TodoList.propTypes = {
-    todos: PropTypes.array.isRequired
+  // From App component
+  todos: PropTypes.array.isRequired
 };

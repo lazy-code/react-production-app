@@ -12,6 +12,7 @@ export const TodoForm = (props) => (
 );
 
 TodoForm.propTypes = {
+  // From App component
   currentTodo: PropTypes.string.isRequired,
   handleInputChange: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired

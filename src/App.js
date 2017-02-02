@@ -7,6 +7,7 @@ import {
   toggleTodo,
   updateTodo
 }from './lib/TodoHelpers';
+import { partial, pipe } from './lib/utils';
 
 import logo from './logo.svg';
 import './App.css';
@@ -40,9 +41,8 @@ class App extends Component {
   };
 
   handleToggle = (id) => {
-    const todo = findById(id, this.state.todos);
-    const toggled = toggleTodo(todo);
-    const updatedTodos = updateTodo(this.state.todos, toggled);
+    const getUpdatedTodos = pipe(findById, toggleTodo, partial(updateTodo, this.state.todos));
+    const updatedTodos = getUpdatedTodos(id, this.state.todos);
 
     this.setState({
       todos: updatedTodos
