@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { TodoForm, TodoList } from './components/todo';
-import { addTodo, generateId }from './lib/TodoHelpers';
+import {
+  addTodo,
+  generateId,
+  findById,
+  toggleTodo,
+  updateTodo
+}from './lib/TodoHelpers';
 
 import logo from './logo.svg';
 import './App.css';
@@ -33,6 +39,16 @@ class App extends Component {
 
   };
 
+  handleToggle = (id) => {
+    const todo = findById(id, this.state.todos);
+    const toggled = toggleTodo(todo);
+    const updatedTodos = updateTodo(this.state.todos, toggled);
+
+    this.setState({
+      todos: updatedTodos
+    });
+  };
+
   handleEmptySubmit = (ev) => {
     ev.preventDefault();
     this.setState({
@@ -63,7 +79,7 @@ class App extends Component {
                     handleInputChange={this.handleInputChange}
                     handleSubmit={submitHandler}
           />
-          <TodoList todos={todos} />
+          <TodoList todos={todos} handleToggle={this.handleToggle}/>
         </div>
       </div>
     );
