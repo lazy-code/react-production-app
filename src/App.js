@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { TodoForm, TodoList } from './components/todo';
+import { TodoForm, TodoList, Footer } from './components/todo';
 import {
   addTodo,
   generateId,
   findById,
   toggleTodo,
-  updateTodo
+  updateTodo,
+  removeTodo
 }from './lib/TodoHelpers';
 import { partial, pipe } from './lib/utils';
 
@@ -14,16 +15,13 @@ import './App.css';
 
 class App extends Component {
 
-  constructor() {
-    super();
-    this.state = {
-      todos: [
-        {id: 1, name: 'Learn JSX', isComplete:true},
-        {id: 2, name: 'Build an awesome app', isComplete:false},
-        {id: 3, name: 'Ship it', isComplete:false}
-      ],
-      currentTodo: ''
-    };
+  state = {
+    todos: [
+      {id: 1, name: 'Learn JSX', isComplete:true},
+      {id: 2, name: 'Build an awesome app', isComplete:false},
+      {id: 3, name: 'Ship it', isComplete:false}
+    ],
+    currentTodo: ''
   };
 
   handleSubmit = (ev) => {
@@ -63,6 +61,16 @@ class App extends Component {
     });
   };
 
+  handleRemove = (id, ev) => {
+    ev.preventDefault();
+
+    const updatedTodos = removeTodo(this.state.todos, id);
+
+    this.setState({
+      todos: updatedTodos
+    });
+  };
+
   render() {
     const { todos, currentTodo, errorMessage } = this.state;
     const submitHandler = currentTodo ? this.handleSubmit : this.handleEmptySubmit;
@@ -79,7 +87,11 @@ class App extends Component {
                     handleInputChange={this.handleInputChange}
                     handleSubmit={submitHandler}
           />
-          <TodoList todos={todos} handleToggle={this.handleToggle}/>
+          <TodoList todos={todos}
+                    handleToggle={this.handleToggle}
+                    handleRemove={this.handleRemove}
+          />
+          <Footer />
         </div>
       </div>
     );
