@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { TodoForm, TodoList, Footer } from './components/todo';
 import {
   addTodo,
@@ -6,7 +6,8 @@ import {
   findById,
   toggleTodo,
   updateTodo,
-  removeTodo
+  removeTodo,
+  filterTodos
 }from './lib/TodoHelpers';
 import { partial, pipe } from './lib/utils';
 
@@ -22,6 +23,11 @@ class App extends Component {
       {id: 3, name: 'Ship it', isComplete:false}
     ],
     currentTodo: ''
+  };
+
+  // From Route
+  static contextTypes = {
+    route: PropTypes.string
   };
 
   handleSubmit = (ev) => {
@@ -74,6 +80,7 @@ class App extends Component {
   render() {
     const { todos, currentTodo, errorMessage } = this.state;
     const submitHandler = currentTodo ? this.handleSubmit : this.handleEmptySubmit;
+    const displayTodos = filterTodos(todos, this.context.route);
 
     return (
       <div className="App">
@@ -87,7 +94,7 @@ class App extends Component {
                     handleInputChange={this.handleInputChange}
                     handleSubmit={submitHandler}
           />
-          <TodoList todos={todos}
+          <TodoList todos={displayTodos}
                     handleToggle={this.handleToggle}
                     handleRemove={this.handleRemove}
           />
