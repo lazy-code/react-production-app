@@ -13,7 +13,8 @@ import { partial, pipe } from './lib/utils';
 import {
   loadTodos,
   createTodo,
-  saveTodo
+  saveTodo,
+  destroyTodo
 } from './lib/todoService';
 
 import logo from './logo.svg';
@@ -52,11 +53,11 @@ class App extends Component {
       .then(() => this.showTempMessage('Todo added successfully'));
   };
 
-  showTempMessage = (msg) => {
-    this.setState({message: msg});
-    setTimeout(() => {
-      this.setState({message: ''});
-    }, 2000);
+  handleEmptySubmit = (ev) => {
+    ev.preventDefault();
+    this.setState({
+      errorMessage: 'Please supply a todo name'
+    });
   };
 
   handleToggle = (id) => {
@@ -77,13 +78,6 @@ class App extends Component {
       .then(() => this.showTempMessage('Todo updated'));
   };
 
-  handleEmptySubmit = (ev) => {
-    ev.preventDefault();
-    this.setState({
-      errorMessage: 'Please supply a todo name'
-    });
-  };
-
   handleInputChange = (ev) => {
     this.setState({
       currentTodo: ev.target.value,
@@ -99,6 +93,16 @@ class App extends Component {
     this.setState({
       todos: updatedTodos
     });
+
+    destroyTodo(id)
+      .then(() => this.showTempMessage('Todo removed'));
+  };
+
+  showTempMessage = (msg) => {
+    this.setState({message: msg});
+    setTimeout(() => {
+      this.setState({message: ''});
+    }, 2000);
   };
 
   render() {
