@@ -10,7 +10,7 @@ import {
   filterTodos
 }from './lib/TodoHelpers';
 import { partial, pipe } from './lib/utils';
-import { loadTodos } from './lib/todoService';
+import { loadTodos, createTodo } from './lib/todoService';
 
 import logo from './logo.svg';
 import './App.css';
@@ -44,6 +44,15 @@ class App extends Component {
       currentTodo: ''
     });
 
+    createTodo(newTodo)
+      .then(() => this.showTempMessage('Todo added successfully'));
+  };
+
+  showTempMessage = (msg) => {
+    this.setState({message: msg});
+    setTimeout(() => {
+      this.setState({message: ''});
+    }, 2000);
   };
 
   handleToggle = (id) => {
@@ -80,7 +89,7 @@ class App extends Component {
   };
 
   render() {
-    const { todos, currentTodo, errorMessage } = this.state;
+    const { todos, currentTodo, errorMessage, message } = this.state;
     const submitHandler = currentTodo ? this.handleSubmit : this.handleEmptySubmit;
     const displayTodos = filterTodos(todos, this.context.route);
 
@@ -92,6 +101,7 @@ class App extends Component {
         </div>
         <div className="Todo-App">
           {errorMessage && <span className="error">{errorMessage}</span>}
+          {message && <span className="success">{message}</span>}
           <TodoForm currentTodo={currentTodo}
                     handleInputChange={this.handleInputChange}
                     handleSubmit={submitHandler}
