@@ -23,7 +23,12 @@
     {
       "id": 46816,
       "name": "New todo",
-      "isComplete": false
+      "isComplete": true
+    },
+    {
+      "id": 40640,
+      "name": "Another todo",
+      "isComplete": true
     }
   ]
 }

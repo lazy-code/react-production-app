@@ -10,7 +10,11 @@ import {
   filterTodos
 }from './lib/TodoHelpers';
 import { partial, pipe } from './lib/utils';
-import { loadTodos, createTodo } from './lib/todoService';
+import {
+  loadTodos,
+  createTodo,
+  saveTodo
+} from './lib/todoService';
 
 import logo from './logo.svg';
 import './App.css';
@@ -56,12 +60,21 @@ class App extends Component {
   };
 
   handleToggle = (id) => {
-    const getUpdatedTodos = pipe(findById, toggleTodo, partial(updateTodo, this.state.todos));
-    const updatedTodos = getUpdatedTodos(id, this.state.todos);
+    // find todo by id, toggle complete property
+    const getToggledTodo = pipe(findById, toggleTodo);
+    // get toggled todo
+    const updated = getToggledTodo(id, this.state.todos);
+    // bind to get proper value
+    const getUpdatedTodos = partial(updateTodo, this.state.todos);
+    // create updated todos object
+    const updatedTodos = getUpdatedTodos(updated);
 
     this.setState({
       todos: updatedTodos
     });
+
+    saveTodo(updated)
+      .then(() => this.showTempMessage('Todo updated'));
   };
 
   handleEmptySubmit = (ev) => {
