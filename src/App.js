@@ -10,6 +10,7 @@ import {
   filterTodos
 }from './lib/TodoHelpers';
 import { partial, pipe } from './lib/utils';
+import { loadTodos } from './lib/todoService';
 
 import logo from './logo.svg';
 import './App.css';
@@ -17,17 +18,18 @@ import './App.css';
 class App extends Component {
 
   state = {
-    todos: [
-      {id: 1, name: 'Learn JSX', isComplete:true},
-      {id: 2, name: 'Build an awesome app', isComplete:false},
-      {id: 3, name: 'Ship it', isComplete:false}
-    ],
+    todos: [],
     currentTodo: ''
   };
 
   // From Route
   static contextTypes = {
     route: PropTypes.string
+  };
+
+  componentDidMount() {
+    loadTodos()
+      .then(todos => this.setState({todos}))
   };
 
   handleSubmit = (ev) => {
